@@ -9,10 +9,17 @@ def create():
     global database
 
     name = input("Enter name of student: ")
-    age = int(input("Enter age: "))
-    # email = input("Enter email: ")
+    try:
+        age = int(input("Enter age: "))
+    except(ValueError):
+        print("Age must be a number.")
+        create()
+    email = input("Enter email: ")
     newId = len(database)+1
-    database.append([newId,name, age])
+    try:
+        database.append([newId,name, age, email])
+    except(UnboundLocalError):
+        return
     print("Student added!")
 
 def view():
@@ -23,10 +30,13 @@ def view():
 
     for row in database:
         userId = str(row[0])
+        '''
         chance = random.randint(0, 100)
+        #What is this for?
         if chance >= 70:
             userId = str(random.randint(1, 100))
-
+        '''
+        userId = str(row[0])
         name = row[1]
         age = str(row[2])
         email = row[3]
@@ -41,7 +51,7 @@ def view():
 def edit():
     view()
     print()
-    userInput = input("Enter the id of the student you want to edit: ")
+    userInput = int(input("Enter the id of the student you want to edit: "))
     global database
 
     name = input("Enter name of student: ")
@@ -58,7 +68,7 @@ def delete():
     userInput = int(input("Enter the id of the student you want to delete: "))
 
     global database
-    database.remove(userInput-1)
+    database.remove(database[userInput-1])
 
     print("Student removed!")
 
